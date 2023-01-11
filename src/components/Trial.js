@@ -8,7 +8,7 @@ const Trial = (props) => {
 
 	return (
 		<div className="trial">
-			<h2>{`${props.type}: Trial ${props.trial} / ${props.trialNum}`}</h2>
+			<h2>{`${props.type}: Trial ${props.trial + 1} / ${props.trialNum}`}</h2>
 			<Scatterplot 
 				coord={coord} dataset={dataset} 
 				updatePhase={props.updatePhase}

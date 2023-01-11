@@ -44,7 +44,7 @@ const Scatterplot = (props) => {
 				ctx.fillStyle = "black";
 			}
 			else {
-				ctx.fillStyle = colorMap[label[i]];
+				ctx.fillStyle = colorMap[label[i] % 10];
 			}
 			ctx.fill();
 		})
@@ -86,22 +86,26 @@ const Scatterplot = (props) => {
 					.attr("cy", event.offsetY)
 					.attr("r", 5)
 					.attr("fill", "None")
-					.attr("stroke", colorMap[currentLassoNum])
+					.attr("stroke", colorMap[currentLassoNum % 10])
 				
 				d3.select(event.target)
 				  .append("path")
-					.attr("id", "currentLassoPath");
+					.attr("id", "currentLassoPath")
+					.attr("fill", "None")
+					.attr("stroke", colorMap[currentLassoNum % 10])
+					.attr("stroke-dasharray", "5,5");
 			}
-			else {
+			else if (isLassoing && status === "lasso"){
 				// finish lassoing
 				isLassoing = false;
-				d3.select(event.target).select("#currentLassoCircle").remove();
-				d3.select(event.target).select("#currentLassoPath").attr("id", "lassoPath" + currentLassoNum).attr("class", "lassoFinsihedPath");
+				d3.select(event.target).selectAll("#currentLassoCircle").remove();
+				d3.select(event.target).selectAll("#currentLassoPath").attr("id", "lassoPath" + currentLassoNum).attr("class", "lassoFinishedPath");
+
 			}
 		}
 
 		function mousemoveLasso(event) {
-			if (isLassoing) {
+			if (isLassoing && status === "lasso") {
 				const previousPosition = lassoPaths[currentLassoNum][lassoPaths[currentLassoNum].length - 1];
 				const currentPosition = [event.offsetX, event.offsetY];
 				const distance = Math.sqrt((previousPosition[0] - currentPosition[0]) ** 2 + (previousPosition[1] - currentPosition[1]) ** 2);
@@ -113,9 +117,6 @@ const Scatterplot = (props) => {
 					d3.select(event.target)
 					  .select("#currentLassoPath")
 						.attr("d", d3.line()(polygon))
-						.attr("fill", "None")
-						.attr("stroke", colorMap[currentLassoNum])
-						.attr("stroke-dasharray", "5,5");
 					// find points inside lasso
 					coord.forEach((xy, i) => {
 						if (robustPointInPolygon(lassoPaths[currentLassoNum], xy) === -1) {
@@ -127,6 +128,15 @@ const Scatterplot = (props) => {
 					updateSplot();				
 				}
 			}
+			else if (!isLassoing && status === "lasso") {
+				if (d3.select(event.target).selectAll("#currentLassoCircle").size() > 0) {
+					d3.select(event.target).selectAll("#currentLassoCircle").remove();
+				}
+				if (d3.select(event.target).selectAll("#currentLassoPath").size() > 0) {
+					d3.select(event.target).selectAll("#currentLassoPath").attr("id", "lassoPath" + currentLassoNum).attr("class", "lassoFinishedPath");
+				}
+			}
+
 		}
 
 
@@ -155,7 +165,7 @@ const Scatterplot = (props) => {
 		props.updatePhase();
 		document.getElementsByClassName("ambiguityDivSplot")[0].style.display = "none";
 		document.getElementsByClassName("buttonDivSplot")[0].style.display = "block";
-		d3.selectAll(".lassoFinsihedPath").remove();
+		d3.selectAll(".lassoFinishedPath").remove();
 	}
 
 	return (
