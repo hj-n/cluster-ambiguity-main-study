@@ -1,4 +1,5 @@
 import React from "react";
+import Scatterplot from "./Scatterplot";
 
 const Trial = (props) => {
 
@@ -6,7 +7,7 @@ const Trial = (props) => {
 
 	return (
 		<div>
-			Trial
+			<Scatterplot/>
 		</div>
 	)
 }

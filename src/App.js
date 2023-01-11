@@ -1,10 +1,15 @@
 import Trial from "./components/Trial";
+import "./App.css";
+import { useState } from "react";
+import Introduction from "./components/Introduction";
 
 function App() {
+
+	const [phase, setPhase] = useState("intro");
+
   return (
     <div className="App">
-      Hello World!
-			<Trial/>
+      {phase === "intro" && <Introduction/>}
     </div>
   );
 }
