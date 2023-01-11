@@ -18,20 +18,22 @@ function Wrapper() {
 function App(props) {
 
 	// experiment data
-	const ambiguity = useRef({});
-	const lassoResult = useRef({});
+	const ambiguity = useRef();
+	const lassoResult = useRef();
+	ambiguity.current = {};
+	lassoResult.current = {};
 
 	// updateData
-	const updateAmbigutiy = (dataset, ambiguity) => {
-		ambiguity.current[dataset] = ambiguity;
+	const updateAmbiguity = (dataset, ambiguityTrial) => {
+		ambiguity.current[dataset] = ambiguityTrial;
 	}
-	const updateLassoResult = (dataset, lassoResult) => {
-		lassoResult.current[dataset] = lassoResult;
+	const updateLassoResult = (dataset, lassoResultTrial) => {
+		// lassoResult[dataset] = lassoResult;
+		lassoResult.current[dataset] = lassoResultTrial;
+		console.log(lassoResult.current)
+		
 	}
 	
-
-
-
 	const [phase, setPhase] = useState("intro");
 	const [train, setTrain] = useState(0);
 	const [test, setTest] = useState(0);
@@ -42,6 +44,22 @@ function App(props) {
 	const trainingNum = trainingList.length
 	const testNum     = testList.length
 
+	// update phase
+	function updatePhase() {
+		if (phase === "train") {
+			if (train < trainingNum - 1) {
+				setTrain(train + 1)
+			} else {
+				setPhase("test")
+			}
+		} else if (phase === "test") {
+			if (test < testNum - 1) {
+				setTest(test + 1)
+			} else {
+				setPhase("finish")
+			}
+		}
+	}
 
 
 
@@ -49,8 +67,13 @@ function App(props) {
     <div className="App">
       {phase === "intro" && <Introduction/>}
 			{phase === "train" && <Trial 
-				type={"Training session"} trial={train} trialNum={trainingNum} dataset={trainingList[train]}/>}
-			{phase === "test"  && <Trial type={"Experiment"} trial={test} trialNum={testNum} dataset={testList[test]} updateAmbigutiy={updateAmbigutiy} updateLassoResult={updateLassoResult}/>}
+				type={"Training session"} trial={train} trialNum={trainingNum} dataset={trainingList[train]}
+				updatePhase={updatePhase}
+			/>}
+			{phase === "test"  && <Trial 
+				type={"Experiment"} trial={test} trialNum={testNum} dataset={testList[test]}
+				updatePhase={updatePhase} updateAmbiguitiy={updateAmbiguity} updateLassoResult={updateLassoResult}
+				/>}
 			<div id="startButton">
 				{phase === "intro" && <button onClick={() => setPhase("train")}>Start Experiment!!</button>}
 			</div>

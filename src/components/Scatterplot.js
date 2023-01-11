@@ -5,6 +5,7 @@ import robustPointInPolygon from "robust-point-in-polygon";
 
 const Scatterplot = (props) => {
 
+
 	const coord = props.coord;
 	const label = new Array(coord.length).fill(-1);
 
@@ -49,14 +50,8 @@ const Scatterplot = (props) => {
 		})
 	} 
 	
-	// render a scatterplot in the canvas with id "scatterplot"
-	// if label is -1, the point should be black. Else, the point should follow the schemecategory20 color scheme
 
-	useEffect(() => {
-		canvas = document.getElementById("scatterplot");
-		ctx = canvas.getContext("2d");
-		updateSplot();
-	})
+
 
 	// variables for status
 	let lassos = {};
@@ -64,12 +59,19 @@ const Scatterplot = (props) => {
 	let currentLassoNum = -1;
 	let isLassoing = false;
 	let startPosition = null;
+	let status = "lasso";
+
+	useEffect(() => {
+		canvas = document.getElementById("scatterplot");
+		ctx = canvas.getContext("2d");
+		updateSplot();
+	})
 
 	// lasso setting
 	useEffect(() => {
 
 		function clickLasso(event) {
-			if (!isLassoing) {
+			if (!isLassoing && status === "lasso") {
 				// update status
 				isLassoing = true;
 				currentLassoNum += 1;
@@ -77,7 +79,6 @@ const Scatterplot = (props) => {
 				startPosition = [event.offsetX, event.offsetY];
 				lassoPaths[currentLassoNum] = [startPosition];
 				// draw lasso start circle
-				console.log(event)
 				d3.select(event.target)
 				  .append("circle")
 					.attr("id", "currentLassoCircle")
@@ -95,7 +96,7 @@ const Scatterplot = (props) => {
 				// finish lassoing
 				isLassoing = false;
 				d3.select(event.target).select("#currentLassoCircle").remove();
-				d3.select(event.target).select("#currentLassoPath").attr("id", "lassoPath" + currentLassoNum);
+				d3.select(event.target).select("#currentLassoPath").attr("id", "lassoPath" + currentLassoNum).attr("class", "lassoFinsihedPath");
 			}
 		}
 
@@ -135,21 +136,26 @@ const Scatterplot = (props) => {
 			.on("mousemove", mousemoveLasso)
 	})
 
-	let status = "lasso";
 
 	function clickFinishButton() {
 		if (props.updateLassoResult != undefined) {
-			props.updateLassoResult(props.datasets, lassos);
+			console.log(props.updateLassoResult, props.dataset)
+			props.updateLassoResult(props.dataset, lassos);
 		}
 
 		document.getElementsByClassName("buttonDivSplot")[0].style.display = "none";
 		document.getElementsByClassName("ambiguityDivSplot")[0].style.display = "block";
+		status = "ambiguity";
 	}
 
-	function clickAmbiguity(ambiguityResult) {
+	function clickAmbiguity(event) {
 		if (props.updateAmbiguity != undefined) {
-			props.updateAmbiguity(ambiguityResult);
+			props.updateAmbiguity(event.target.id);
 		}
+		props.updatePhase();
+		document.getElementsByClassName("ambiguityDivSplot")[0].style.display = "none";
+		document.getElementsByClassName("buttonDivSplot")[0].style.display = "block";
+		d3.selectAll(".lassoFinsihedPath").remove();
 	}
 
 	return (
@@ -165,7 +171,7 @@ const Scatterplot = (props) => {
 					id="lassoSvg"
 					width="700"
 					height="700"
-					style={{zIndex: 2}}
+					style={{ position: "absolute", zIndex: 2}}
 				/>
 			</div>
 			<div className="buttonDivSplot">
@@ -173,9 +179,9 @@ const Scatterplot = (props) => {
 			</div>
 			<div className="ambiguityDivSplot" style={{"display": "none"}}>
 				<div className="ambiguityButtonWrapper">
-					<button className="ambiguity" onClick={clickAmbiguity("not_amb")}>Not Ambiguious</button>
-					<button className="ambiguity" onClick={clickAmbiguity("unclear")}>Unclear</button>
-					<button className="ambiguity" onClick={clickAmbiguity("amb")}>Ambiguious</button>
+					<button className="ambiguity" onClick={clickAmbiguity} id="not_emb">Not Ambiguious</button>
+					<button className="ambiguity" onClick={clickAmbiguity} id="unclear">Unclear</button>
+					<button className="ambiguity" onClick={clickAmbiguity} id="amb">Ambiguious</button>
 
 				</div>
 

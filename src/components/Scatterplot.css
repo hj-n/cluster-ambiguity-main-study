@@ -8,6 +8,8 @@
 .buttonDivSplot {
 	width: 720px;
 	margin: 0 auto;
+	position: relative;
+	top: 700px;
 	/* padding */
 }
 
@@ -26,4 +28,6 @@
 
 .ambiguityButtonWrapper {
 	margin: auto;
+	position: relative;
+	top: 700px;
 }
