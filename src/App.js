@@ -58,7 +58,21 @@ function App(props) {
 			if (test < testNum - 1) {
 				setTest(test + 1)
 			} else {
-				setPhase("finish")
+				setPhase("finish");
+				// save data
+				(async () => {
+					const blob = await new Blob([JSON.stringify({
+						ambiguity: ambiguity.current,
+						lassoResult: lassoResult.current
+					})], { type: "text/plain;charset=utf-8" })
+					const href = await URL.createObjectURL(blob)
+					const link = document.createElement("a")
+					link.href = href
+					link.download = "result.json"
+					document.body.appendChild(link)
+					link.click()
+					document.body.removeChild(link)
+				})();
 			}
 		}
 	}
