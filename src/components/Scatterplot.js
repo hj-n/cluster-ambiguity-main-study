@@ -48,8 +48,6 @@ const Scatterplot = (props) => {
 			ctx.fill();
 		})
 	} 
-
-
 	
 	// render a scatterplot in the canvas with id "scatterplot"
 	// if label is -1, the point should be black. Else, the point should follow the schemecategory20 color scheme
@@ -137,24 +135,51 @@ const Scatterplot = (props) => {
 			.on("mousemove", mousemoveLasso)
 	})
 
-	
+	let status = "lasso";
 
+	function clickFinishButton() {
+		if (props.updateLassoResult != undefined) {
+			props.updateLassoResult(props.datasets, lassos);
+		}
 
+		document.getElementsByClassName("buttonDivSplot")[0].style.display = "none";
+		document.getElementsByClassName("ambiguityDivSplot")[0].style.display = "block";
+	}
+
+	function clickAmbiguity(ambiguityResult) {
+		if (props.updateAmbiguity != undefined) {
+			props.updateAmbiguity(ambiguityResult);
+		}
+	}
 
 	return (
 		<div className="splot">
-			<canvas
-				id="scatterplot"
-				width="700"
-				height="700"
-				style={{ border: "1.5px solid #000000", position:"absolute", zIndex: 1}} 
-			/>
-			<svg
-				id="lassoSvg"
-				width="700"
-				height="700"
-				style={{ position: "absolute", zIndex: 2}}
-			/>
+			<div>
+				<canvas
+					id="scatterplot"
+					width="700"
+					height="700"
+					style={{ border: "1.5px solid #000000", position:"absolute", zIndex: 1}} 
+				/>
+				<svg
+					id="lassoSvg"
+					width="700"
+					height="700"
+					style={{zIndex: 2}}
+				/>
+			</div>
+			<div className="buttonDivSplot">
+				<button className="finish" onClick={clickFinishButton}>Finish!!</button>
+			</div>
+			<div className="ambiguityDivSplot" style={{"display": "none"}}>
+				<div className="ambiguityButtonWrapper">
+					<button className="ambiguity" onClick={clickAmbiguity("not_amb")}>Not Ambiguious</button>
+					<button className="ambiguity" onClick={clickAmbiguity("unclear")}>Unclear</button>
+					<button className="ambiguity" onClick={clickAmbiguity("amb")}>Ambiguious</button>
+
+				</div>
+
+			</div>
 		</div>
 	)
 }

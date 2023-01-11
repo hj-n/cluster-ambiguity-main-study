@@ -1,0 +1,29 @@
+.finish {
+	float: right;
+	margin-right: 17px;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.buttonDivSplot {
+	width: 720px;
+	margin: 0 auto;
+	/* padding */
+}
+
+.ambiguityDivSplot {
+	width: 720px;
+	margin: 0 auto;
+	/* padding */
+}
+
+.ambiguity {
+	margin-left: 17.5px;
+	margin-right: 17.5px;
+	justify-content: center;
+	width: 200px;
+}
+
+.ambiguityButtonWrapper {
+	margin: auto;
+}

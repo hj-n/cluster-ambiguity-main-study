@@ -1,6 +1,6 @@
 import Trial from "./components/Trial";
 import "./App.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Introduction from "./components/Introduction";
 
 function Wrapper() {
@@ -16,6 +16,21 @@ function Wrapper() {
 }
 
 function App(props) {
+
+	// experiment data
+	const ambiguity = useRef({});
+	const lassoResult = useRef({});
+
+	// updateData
+	const updateAmbigutiy = (dataset, ambiguity) => {
+		ambiguity.current[dataset] = ambiguity;
+	}
+	const updateLassoResult = (dataset, lassoResult) => {
+		lassoResult.current[dataset] = lassoResult;
+	}
+	
+
+
 
 	const [phase, setPhase] = useState("intro");
 	const [train, setTrain] = useState(0);
@@ -33,8 +48,9 @@ function App(props) {
   return (
     <div className="App">
       {phase === "intro" && <Introduction/>}
-			{phase === "train" && <Trial type={"Training session"} trial={train} trialNum={trainingNum} dataset={trainingList[train]}/>}
-			{phase === "test"  && <Trial type={"Experiment"} trial={test} trialNum={testNum} dataset={testList[test]}/>}
+			{phase === "train" && <Trial 
+				type={"Training session"} trial={train} trialNum={trainingNum} dataset={trainingList[train]}/>}
+			{phase === "test"  && <Trial type={"Experiment"} trial={test} trialNum={testNum} dataset={testList[test]} updateAmbigutiy={updateAmbigutiy} updateLassoResult={updateLassoResult}/>}
 			<div id="startButton">
 				{phase === "intro" && <button onClick={() => setPhase("train")}>Start Experiment!!</button>}
 			</div>
