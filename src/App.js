@@ -2,12 +2,16 @@ import Trial from "./components/Trial";
 import "./App.css";
 import { useState, useRef } from "react";
 import Introduction from "./components/Introduction";
+import Closing from "./components/Closing";
+import Ready from "./components/Ready";
 
 function Wrapper() {
 
 	const datasetList = require("./sampled_datasets_manual_sample.json")
 	const trainingList = require("./sampled_datasets_training.json")
-	const testList = datasetList.filter((d) => !trainingList.includes(d))
+	const testList = datasetList.filter((d) => !trainingList.includes(d)).slice(0, 4)
+	
+	
 	testList.sort(() => Math.random() - 0.5)
 
 	return (
@@ -18,10 +22,9 @@ function Wrapper() {
 function App(props) {
 
 	// experiment data
-	const ambiguity = useRef();
-	const lassoResult = useRef();
-	ambiguity.current = {};
-	lassoResult.current = {};
+	const ambiguity = useRef({});
+	const lassoResult = useRef({});
+
 
 	// updateData
 	const updateAmbiguity = (dataset, ambiguityTrial) => {
@@ -30,7 +33,6 @@ function App(props) {
 	const updateLassoResult = (dataset, lassoResultTrial) => {
 		// lassoResult[dataset] = lassoResult;
 		lassoResult.current[dataset] = lassoResultTrial;
-		console.log(lassoResult.current)
 		
 	}
 	
@@ -50,7 +52,7 @@ function App(props) {
 			if (train < trainingNum - 1) {
 				setTrain(train + 1)
 			} else {
-				setPhase("test")
+				setPhase("ready")
 			}
 		} else if (phase === "test") {
 			if (test < testNum - 1) {
@@ -66,16 +68,19 @@ function App(props) {
   return (
     <div className="App">
       {phase === "intro" && <Introduction/>}
+			{phase === "ready" && <Ready/>}
 			{phase === "train" && <Trial 
 				type={"Training session"} trial={train} trialNum={trainingNum} dataset={trainingList[train]}
 				updatePhase={updatePhase}
 			/>}
 			{phase === "test"  && <Trial 
 				type={"Experiment"} trial={test} trialNum={testNum} dataset={testList[test]}
-				updatePhase={updatePhase} updateAmbiguitiy={updateAmbiguity} updateLassoResult={updateLassoResult}
+				updatePhase={updatePhase} updateAmbiguity={updateAmbiguity} updateLassoResult={updateLassoResult}
 				/>}
+			{phase === "finish" && <Closing/>}
 			<div id="startButton">
-				{phase === "intro" && <button onClick={() => setPhase("train")}>Start Experiment!!</button>}
+				{phase === "intro" && <button onClick={() => setPhase("train")}>Start Training!!</button>}
+				{phase === "ready" && <button onClick={() => setPhase("test")}>Start Experiment!!</button>}
 			</div>
     </div>
   );

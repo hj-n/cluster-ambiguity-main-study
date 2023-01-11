@@ -5,7 +5,6 @@ const Trial = (props) => {
 
 	const dataset = props.dataset
 	const coord = require(`../data/${dataset}.json`)
-	
 
 	return (
 		<div className="trial">
@@ -13,7 +12,7 @@ const Trial = (props) => {
 			<Scatterplot 
 				coord={coord} dataset={dataset} 
 				updatePhase={props.updatePhase}
-				updateAmbigutiy={props.updateAmbigutiy} updateLassoResult={props.updateLassoResult} 
+				updateAmbiguity={props.updateAmbiguity} updateLassoResult={props.updateLassoResult} 
 			/>
 		</div>
 	)

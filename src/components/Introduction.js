@@ -20,6 +20,9 @@ const Introduction = (props) => {
 				The experiment will last about 60 minutes (one hour). You will see 64 scatterplots in total, where the first four scatterplots will be included in the practice session.
 				There will be a short interview after the experiment.
 			</p>	
+			<p>
+				Please press the below button to start the training session.
+			</p>
 		</div>
 	)
 };

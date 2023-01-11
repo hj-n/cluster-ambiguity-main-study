@@ -150,7 +150,7 @@ const Scatterplot = (props) => {
 
 	function clickAmbiguity(event) {
 		if (props.updateAmbiguity != undefined) {
-			props.updateAmbiguity(event.target.id);
+			props.updateAmbiguity(props.dataset, event.target.id);
 		}
 		props.updatePhase();
 		document.getElementsByClassName("ambiguityDivSplot")[0].style.display = "none";
