@@ -60,6 +60,7 @@ const Scatterplot = (props) => {
 	let isLassoing = false;
 	let startPosition = null;
 	let status = "lasso";
+	let previousLabel = null;
 
 	useEffect(() => {
 		canvas = document.getElementById("scatterplot");
@@ -78,6 +79,7 @@ const Scatterplot = (props) => {
 				lassos[currentLassoNum] = new Array(coord.length).fill(false);
 				startPosition = [event.offsetX, event.offsetY];
 				lassoPaths[currentLassoNum] = [startPosition];
+				previousLabel = label.map(d => d);
 				// draw lasso start circle
 				d3.select(event.target)
 				  .append("circle")
@@ -122,6 +124,10 @@ const Scatterplot = (props) => {
 						if (robustPointInPolygon(lassoPaths[currentLassoNum], xy) === -1) {
 							lassos[currentLassoNum][i] = true;
 							label[i] = currentLassoNum;
+						}
+						else {
+							lassos[currentLassoNum][i] = false;
+							label[i] = previousLabel[i];
 						}
 					});
 
