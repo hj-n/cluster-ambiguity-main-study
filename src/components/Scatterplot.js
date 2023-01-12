@@ -195,8 +195,8 @@ const Scatterplot = (props) => {
 			</div>
 			<div className="ambiguityDivSplot" style={{"display": "none"}}>
 				<div className="ambiguityButtonWrapper">
-					<button className="ambiguity" onClick={clickAmbiguity} id="not_emb">Not Ambiguious</button>
-					<button className="ambiguity" onClick={clickAmbiguity} id="unclear">Unclear</button>
+					<button className="ambiguity" onClick={clickAmbiguity} id="not_emb">Clear</button>
+					<button className="ambiguity" onClick={clickAmbiguity} id="unclear">Not Sure</button>
 					<button className="ambiguity" onClick={clickAmbiguity} id="amb">Ambiguious</button>
 
 				</div>
