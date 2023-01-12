@@ -9,7 +9,7 @@ function Wrapper() {
 
 	const datasetList = require("./sampled_datasets_manual_sample.json")
 	const trainingList = require("./sampled_datasets_training.json")
-	const testList = datasetList.filter((d) => !trainingList.includes(d)).slice(0, 4)
+	const testList = datasetList.filter((d) => !trainingList.includes(d))
 	
 	
 	testList.sort(() => Math.random() - 0.5)
