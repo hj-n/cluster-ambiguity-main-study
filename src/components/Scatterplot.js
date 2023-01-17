@@ -60,7 +60,7 @@ const Scatterplot = (props) => {
 	let isLassoing = false;
 	let startPosition = null;
 	let status = "lasso";
-	let previousLabel = null;
+	let previousLabel = new Array(coord.length).fill(-1);
 
 	useEffect(() => {
 		canvas = document.getElementById("scatterplot");
@@ -73,6 +73,9 @@ const Scatterplot = (props) => {
 
 		function clickLasso(event) {
 			if (!isLassoing && status === "lasso") {
+
+				// disable button
+				document.getElementById("finishButton").disabled = true;
 				// update status
 				isLassoing = true;
 				currentLassoNum += 1;
@@ -99,6 +102,8 @@ const Scatterplot = (props) => {
 			}
 			else if (isLassoing && status === "lasso"){
 				// finish lassoing
+				// enable button
+				document.getElementById("finishButton").disabled = false;
 				isLassoing = false;
 				d3.select(event.target).selectAll("#currentLassoCircle").remove();
 				d3.select(event.target).selectAll("#currentLassoPath").attr("id", "lassoPath" + currentLassoNum).attr("class", "lassoFinishedPath");
@@ -108,6 +113,7 @@ const Scatterplot = (props) => {
 
 		function mousemoveLasso(event) {
 			if (isLassoing && status === "lasso") {
+				document.getElementById("finishButton").disabled = true;
 				const previousPosition = lassoPaths[currentLassoNum][lassoPaths[currentLassoNum].length - 1];
 				const currentPosition = [event.offsetX, event.offsetY];
 				const distance = Math.sqrt((previousPosition[0] - currentPosition[0]) ** 2 + (previousPosition[1] - currentPosition[1]) ** 2);
@@ -145,12 +151,15 @@ const Scatterplot = (props) => {
 
 		}
 
-
-
 		d3.select("#lassoSvg")
 		  .on("click", clickLasso)
 			.on("mousemove", mousemoveLasso)
+		
+		
+
 	})
+
+	document.addEventListener("keydown", (event) => { if (event.key === "Escape") { removeLasso(event); } });
 
 
 	function clickFinishButton() {
@@ -174,6 +183,46 @@ const Scatterplot = (props) => {
 		d3.selectAll(".lassoFinishedPath").remove();
 	}
 
+	function removeLasso() {
+		if (isLassoing) {
+			document.getElementById("finishButton").disabled = false;
+			isLassoing = false;
+			delete lassoPaths[currentLassoNum];
+			delete lassos[currentLassoNum];
+			currentLassoNum -= 1;
+			for (let i = 0; i < label.length; i++) {
+				label[i] = previousLabel[i];
+			}
+			d3.select("#lassoSvg").selectAll("#currentLassoCircle").remove();
+			d3.select("#lassoSvg").selectAll("#currentLassoPath").remove();
+			updateSplot();
+			console.log("A")
+		}
+		else if (currentLassoNum > -1) {
+			console.log("B")
+			d3.select("#lassoSvg").selectAll("#lassoPath" + currentLassoNum).remove();
+			delete lassoPaths[currentLassoNum];
+			delete lassos[currentLassoNum];
+			currentLassoNum -= 1;
+			restoreLabel();
+			console.log(lassos)
+			updateSplot();
+		}
+	}
+
+	function restoreLabel() {
+		for (let i = 0; i < label.length; i++) {
+			label[i] = -1;
+		}
+		for (let key in lassos) {
+			for (let i = 0; i < lassos[key].length; i++) {
+				if (lassos[key][i]) {
+					label[i] = key;
+				}
+			}
+		}
+	}
+
 	return (
 		<div className="splot">
 			<div>
@@ -191,7 +240,7 @@ const Scatterplot = (props) => {
 				/>
 			</div>
 			<div className="buttonDivSplot">
-				<button className="finish" onClick={clickFinishButton}>Finish!!</button>
+				<button className="finish" id="finishButton" onClick={clickFinishButton}>Finish!!</button>
 			</div>
 			<div className="ambiguityDivSplot" style={{"display": "none"}}>
 				<div className="ambiguityButtonWrapper">
