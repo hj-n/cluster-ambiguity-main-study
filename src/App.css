@@ -60,3 +60,24 @@ button {
 	/* margin-right: 10px; */
 	cursor: pointer;
 }
+
+.textInput {
+	height: 23px;
+	font-size: 1.1rem;
+	font-family: 'Montserrat', sans-serif;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+
+label {
+	margin-right: 30px;
+}
+
+.radioInputWrapper {
+	display: flex;
+}
+
+.radioInputInner {
+	margin-top: 19px;
+	margin-left: 10px;
+}

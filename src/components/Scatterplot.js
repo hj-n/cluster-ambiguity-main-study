@@ -184,6 +184,7 @@ const Scatterplot = (props) => {
 	}
 
 	function removeLasso() {
+		if (status !== "lasso") return;
 		if (isLassoing) {
 			document.getElementById("finishButton").disabled = false;
 			isLassoing = false;
@@ -240,12 +241,12 @@ const Scatterplot = (props) => {
 				/>
 			</div>
 			<div className="buttonDivSplot">
-				<button className="finish" id="finishButton" onClick={clickFinishButton}>Finish!!</button>
+				<button className="finish" id="finishButton" onClick={clickFinishButton}>Submit</button>
 			</div>
 			<div className="ambiguityDivSplot" style={{"display": "none"}}>
 				<div className="ambiguityButtonWrapper">
 					<button className="ambiguity" onClick={clickAmbiguity} id="not_emb">Clear</button>
-					<button className="ambiguity" onClick={clickAmbiguity} id="unclear">Not Sure</button>
+					<button className="ambiguity" onClick={clickAmbiguity} id="unclear">Unsure</button>
 					<button className="ambiguity" onClick={clickAmbiguity} id="amb">Ambiguious</button>
 
 				</div>

@@ -4,13 +4,13 @@ import { useState, useRef } from "react";
 import Introduction from "./components/Introduction";
 import Closing from "./components/Closing";
 import Ready from "./components/Ready";
+import Demographic from "./components/Demographic";
 
 function Wrapper() {
 
 	const datasetList = require("./sampled_datasets_manual_sample.json")
 	const trainingList = require("./sampled_datasets_training.json")
-	const testList = datasetList.filter((d) => !trainingList.includes(d))
-	
+	const testList = datasetList.filter((d) => !trainingList.includes(d)).slice(0, 60)
 	
 	testList.sort(() => Math.random() - 0.5)
 
@@ -24,6 +24,7 @@ function App(props) {
 	// experiment data
 	const ambiguity = useRef({});
 	const lassoResult = useRef({});
+	const demographic = useRef({});
 
 
 	// updateData
@@ -35,6 +36,11 @@ function App(props) {
 		lassoResult.current[dataset] = lassoResultTrial;
 		
 	}
+
+	const updateDemographic = (demographicTrial) => {
+		demographic.current = demographicTrial;
+	}
+
 	
 	const [phase, setPhase] = useState("intro");
 	const [train, setTrain] = useState(0);
@@ -62,6 +68,7 @@ function App(props) {
 				// save data
 				(async () => {
 					const blob = await new Blob([JSON.stringify({
+						demographic: demographic.current,
 						ambiguity: ambiguity.current,
 						lassoResult: lassoResult.current
 					})], { type: "text/plain;charset=utf-8" })
@@ -82,6 +89,7 @@ function App(props) {
   return (
     <div className="App">
       {phase === "intro" && <Introduction/>}
+			{phase === "demo" && <Demographic updateDemographic={updateDemographic}/>}
 			{phase === "ready" && <Ready/>}
 			{phase === "train" && <Trial 
 				type={"Training session"} trial={train} trialNum={trainingNum} dataset={trainingList[train]}
@@ -93,7 +101,8 @@ function App(props) {
 				/>}
 			{phase === "finish" && <Closing/>}
 			<div id="startButton">
-				{phase === "intro" && <button onClick={() => setPhase("train")}>Start Training!!</button>}
+				{phase === "intro" && <button onClick={() => setPhase("demo")}>Continue!!</button>}
+				{phase === "demo" && <button onClick={() => setPhase("train")}>Start Training!!</button>}
 				{phase === "ready" && <button onClick={() => setPhase("test")}>Start Experiment!!</button>}
 			</div>
     </div>
