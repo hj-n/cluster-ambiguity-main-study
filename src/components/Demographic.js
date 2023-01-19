@@ -25,13 +25,16 @@ const Demographic = (props) => {
 
 	return (
 		<div className="intro">
-			<h1>Welcome!!</h1>
 			<p>
 				Please fill out the following demographic information.
 			</p>
 			<p>
 				Age:
-				<input type="text" className="textInput" value={age} onChange={(e) => setAge(e.target.value)} style={{width: 60}}/>
+				<select className="dropdown" value={age} onChange={(e) => setAge(e.target.value)}>
+					{[...Array(100).keys()].map((i) => {
+						return <option key={i} value={i}>{i}</option>
+					})}
+					</select>	
 			</p>
 			<div className="radioInputWrapper">
 				<p>
@@ -60,18 +63,23 @@ const Demographic = (props) => {
 
 			<p>
 				Education Level:
-				<input type="text" className="textInput" value={education} onChange={(e) => setEducation(e.target.value)} style={{width: 200, marginRight: 30 }}/>
+				<select className="dropdown" value={education} onChange={(e) => setEducation(e.target.value)}>
+					<option value="ug">Undergraduate</option>
+					<option value="bachelor">Bachelor</option>
+					<option value="master">Master</option>
+					<option value="phd">Ph.D.</option>
+				</select>
 					Major:
 					<input type="text" className="textInput" value={major} onChange={(e) => setMajor(e.target.value)} style={{width: 200}}/>
 			</p>
 			<p>
-				Occupation: 
+				Profession: 
 				<input type="text" className="textInput" value={job} onChange={(e) => setJob(e.target.value)} style={{width: 200}}/>
 			</p>
 
 			<div className="radioInputWrapper">
 				<p>
-					Familarity to Data Visualization:
+					Familarity to data visualization:
 				</p>
 				<div className="radioInputInner">
 
@@ -95,7 +103,7 @@ const Demographic = (props) => {
 			</div>
 			<div className="radioInputWrapper">
 				<p>
-					Familarity to Scatterplot-based Data Visualization:
+					Familarity to scatterplot:
 				</p>
 				<div className="radioInputInner">
 					<form>

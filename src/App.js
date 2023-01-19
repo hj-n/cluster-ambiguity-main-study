@@ -27,6 +27,8 @@ function App(props) {
 	const demographic = useRef({});
 
 
+	const seed = Math.floor(Math.random() * 10000000000)
+
 	// updateData
 	const updateAmbiguity = (dataset, ambiguityTrial) => {
 		ambiguity.current[dataset] = ambiguityTrial;
@@ -68,6 +70,7 @@ function App(props) {
 				// save data
 				(async () => {
 					const blob = await new Blob([JSON.stringify({
+						seed: seed,
 						demographic: demographic.current,
 						ambiguity: ambiguity.current,
 						lassoResult: lassoResult.current
@@ -75,7 +78,7 @@ function App(props) {
 					const href = await URL.createObjectURL(blob)
 					const link = document.createElement("a")
 					link.href = href
-					link.download = "result.json"
+					link.download = `${seed}_result.json`
 					document.body.appendChild(link)
 					link.click()
 					document.body.removeChild(link)
@@ -99,7 +102,7 @@ function App(props) {
 				type={"Experiment"} trial={test} trialNum={testNum} dataset={testList[test]}
 				updatePhase={updatePhase} updateAmbiguity={updateAmbiguity} updateLassoResult={updateLassoResult}
 				/>}
-			{phase === "finish" && <Closing/>}
+			{phase === "finish" && <Closing seed={seed}/>}
 			<div id="startButton">
 				{phase === "intro" && <button onClick={() => setPhase("demo")}>Continue!!</button>}
 				{phase === "demo" && <button onClick={() => setPhase("train")}>Start Training!!</button>}
