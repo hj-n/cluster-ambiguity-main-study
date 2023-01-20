@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/cluster-ambiguity-main-study/static/css/main.41873601.css",
-    "main.js": "/cluster-ambiguity-main-study/static/js/main.4259494c.js",
+    "main.css": "/cluster-ambiguity-main-study/static/css/main.236e48d6.css",
+    "main.js": "/cluster-ambiguity-main-study/static/js/main.243b922e.js",
     "index.html": "/cluster-ambiguity-main-study/index.html",
-    "main.41873601.css.map": "/cluster-ambiguity-main-study/static/css/main.41873601.css.map",
-    "main.4259494c.js.map": "/cluster-ambiguity-main-study/static/js/main.4259494c.js.map"
+    "main.236e48d6.css.map": "/cluster-ambiguity-main-study/static/css/main.236e48d6.css.map",
+    "main.243b922e.js.map": "/cluster-ambiguity-main-study/static/js/main.243b922e.js.map"
   },
   "entrypoints": [
-    "static/css/main.41873601.css",
-    "static/js/main.4259494c.js"
+    "static/css/main.236e48d6.css",
+    "static/js/main.243b922e.js"
   ]
 }
