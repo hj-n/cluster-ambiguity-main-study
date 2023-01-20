@@ -10,7 +10,7 @@ function Wrapper() {
 
 	const datasetList = require("./sampled_datasets_manual_sample.json")
 	const trainingList = require("./sampled_datasets_training.json")
-	const testList = datasetList.filter((d) => !trainingList.includes(d)).slice(0, 60)
+	const testList = datasetList.filter((d) => !trainingList.includes(d))
 	
 	testList.sort(() => Math.random() - 0.5)
 
@@ -106,7 +106,7 @@ function App(props) {
 			<div id="startButton">
 				{phase === "intro" && <button onClick={() => setPhase("demo")}>Continue!!</button>}
 				{phase === "demo" && <button onClick={() => setPhase("train")}>Start Training!!</button>}
-				{phase === "ready" && <button onClick={() => setPhase("test")}>Start Experiment!!</button>}
+				{phase === "ready" && <button onClick={() => setPhase("test")}>Begin!!</button>}
 			</div>
     </div>
   );

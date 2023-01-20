@@ -164,23 +164,29 @@ const Scatterplot = (props) => {
 
 	function clickFinishButton() {
 		if (props.updateLassoResult != undefined) {
-			console.log(props.updateLassoResult, props.dataset)
 			props.updateLassoResult(props.dataset, lassos);
 		}
 
 		document.getElementsByClassName("buttonDivSplot")[0].style.display = "none";
 		document.getElementsByClassName("ambiguityDivSplot")[0].style.display = "block";
 		status = "ambiguity";
+		document.getElementsByClassName("ambiguityConfirm")[0].disabled = true;
 	}
 
 	function clickAmbiguity(event) {
 		if (props.updateAmbiguity != undefined) {
 			props.updateAmbiguity(props.dataset, event.target.id);
 		}
+		document.getElementsByClassName("ambiguityConfirm")[0].disabled = false;
+
+	}
+
+	function confirmAmbiguity(event) {
 		props.updatePhase();
 		document.getElementsByClassName("ambiguityDivSplot")[0].style.display = "none";
 		document.getElementsByClassName("buttonDivSplot")[0].style.display = "block";
 		d3.selectAll(".lassoFinishedPath").remove();
+		document.getElementById("ambform").reset();
 	}
 
 	function removeLasso() {
@@ -197,16 +203,13 @@ const Scatterplot = (props) => {
 			d3.select("#lassoSvg").selectAll("#currentLassoCircle").remove();
 			d3.select("#lassoSvg").selectAll("#currentLassoPath").remove();
 			updateSplot();
-			console.log("A")
 		}
 		else if (currentLassoNum > -1) {
-			console.log("B")
 			d3.select("#lassoSvg").selectAll("#lassoPath" + currentLassoNum).remove();
 			delete lassoPaths[currentLassoNum];
 			delete lassos[currentLassoNum];
 			currentLassoNum -= 1;
 			restoreLabel();
-			console.log(lassos)
 			updateSplot();
 		}
 	}
@@ -245,10 +248,31 @@ const Scatterplot = (props) => {
 			</div>
 			<div className="ambiguityDivSplot" style={{"display": "none"}}>
 				<div className="ambiguityButtonWrapper">
-					<button className="ambiguity" onClick={clickAmbiguity} id="not_emb">Clear</button>
-					<button className="ambiguity" onClick={clickAmbiguity} id="unclear">Unsure</button>
-					<button className="ambiguity" onClick={clickAmbiguity} id="amb">Ambiguious</button>
-
+					<form id="ambform">
+						<label className="ambLabel">
+							Very clear
+							<input type="radio" name="ambiguity" id="0" onClick={clickAmbiguity}/>
+						</label>
+						<label className="ambLabel">
+							Clear
+							<input type="radio" name="ambiguity" id="1" onClick={clickAmbiguity}/>
+						</label>
+						<label className="ambLabel">
+							Neutral
+							<input type="radio" name="ambiguity" id="2" onClick={clickAmbiguity}/>
+						</label>
+						<label className="ambLabel">
+							Ambiguous
+							<input type="radio" name="ambiguity" id="3" onClick={clickAmbiguity}/>
+						</label>
+						<label className="ambLabel">
+							Very ambiguous
+							<input type="radio" name="ambiguity" id="4" onClick={clickAmbiguity}/>
+						</label>
+					</form>
+				</div>
+				<div className="ambiguityConfirmWrapper">
+					<button className="ambiguityConfirm" onClick={confirmAmbiguity}>Confirm</button>
 				</div>
 
 			</div>

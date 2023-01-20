@@ -20,14 +20,38 @@
 }
 
 .ambiguity {
-	margin-left: 17.5px;
-	margin-right: 17.5px;
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 70px; 
 	justify-content: center;
-	width: 200px;
+	width: 120.5px;
+	font-size: 17px; 
 }
 
 .ambiguityButtonWrapper {
 	margin: auto;
 	position: relative;
-	top: 700px;
+	top: 720px;
+}
+
+.ambtext {
+	height: 50px;
+}
+
+.ambLabel {
+	font-size: 20px;
+	margin-right: 23.2px;
+}
+
+.ambiguityConfirmWrapper {
+	margin: auto;
+	position: relative;
+	top: 730px;
+}
+
+.ambiguityConfirm {
+	float: right;
+		margin-right: 17px;
+		padding-left: 30px;
+		padding-right: 30px;
 }
