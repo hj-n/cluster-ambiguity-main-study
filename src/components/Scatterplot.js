@@ -49,6 +49,16 @@ const Scatterplot = (props) => {
 			ctx.fill();
 		})
 	} 
+
+	function makeCirclesBalck() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		coord.forEach((xy, i) => {
+			ctx.beginPath();
+			ctx.arc(xy[0], xy[1], 3, 0, 2 * Math.PI);
+			ctx.fillStyle = "black";
+			ctx.fill();
+		});
+	}
 	
 
 
@@ -171,6 +181,8 @@ const Scatterplot = (props) => {
 		document.getElementsByClassName("ambiguityDivSplot")[0].style.display = "block";
 		status = "ambiguity";
 		document.getElementsByClassName("ambiguityConfirm")[0].disabled = true;
+		d3.selectAll(".lassoFinishedPath").remove();
+		makeCirclesBalck();
 	}
 
 	function clickAmbiguity(event) {
@@ -185,7 +197,6 @@ const Scatterplot = (props) => {
 		props.updatePhase();
 		document.getElementsByClassName("ambiguityDivSplot")[0].style.display = "none";
 		document.getElementsByClassName("buttonDivSplot")[0].style.display = "block";
-		d3.selectAll(".lassoFinishedPath").remove();
 		document.getElementById("ambform").reset();
 	}
 
