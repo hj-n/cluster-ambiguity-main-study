@@ -11,11 +11,15 @@ function Wrapper() {
 	const datasetList = require("./sampled_datasets_manual_sample.json")
 	const trainingList = require("./sampled_datasets_training.json")
 	const testList = datasetList.filter((d) => !trainingList.includes(d))
+	// pick 16 scatterplots randomly from the testList
+	const posthocList = testList.sort(() => Math.random() - 0.5).slice(0, 16)
+
+	// const testList = 
 	
 	testList.sort(() => Math.random() - 0.5)
 
 	return (
-		<App trainingList={trainingList} testList={testList}/>
+		<App trainingList={trainingList} testList={testList} posthocList={posthocList}/>
 	)
 }
 
@@ -102,7 +106,7 @@ function App(props) {
 				type={"Experiment"} trial={test} trialNum={testNum} dataset={testList[test]}
 				updatePhase={updatePhase} updateAmbiguity={updateAmbiguity} updateLassoResult={updateLassoResult}
 				/>}
-			{phase === "finish" && <Closing seed={seed}/>}
+			{phase === "finish" && <Closing seed={seed} posthocList={props.posthocList}/>}
 			<div id="startButton">
 				{phase === "intro" && <button onClick={() => setPhase("demo")}>Continue!!</button>}
 				{phase === "demo" && <button onClick={() => setPhase("train")}>Start Training!!</button>}
