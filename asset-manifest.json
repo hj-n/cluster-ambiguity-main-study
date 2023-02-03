@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/cluster-ambiguity-main-study/static/css/main.236e48d6.css",
-    "main.js": "/cluster-ambiguity-main-study/static/js/main.e0160740.js",
+    "main.js": "/cluster-ambiguity-main-study/static/js/main.fa003c73.js",
     "index.html": "/cluster-ambiguity-main-study/index.html",
     "main.236e48d6.css.map": "/cluster-ambiguity-main-study/static/css/main.236e48d6.css.map",
-    "main.e0160740.js.map": "/cluster-ambiguity-main-study/static/js/main.e0160740.js.map"
+    "main.fa003c73.js.map": "/cluster-ambiguity-main-study/static/js/main.fa003c73.js.map"
   },
   "entrypoints": [
     "static/css/main.236e48d6.css",
-    "static/js/main.e0160740.js"
+    "static/js/main.fa003c73.js"
   ]
 }
