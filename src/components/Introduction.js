@@ -17,7 +17,7 @@ const Introduction = (props) => {
 				For the lasso process- click, move around the cluster and click to stop.
 			</p>
 			<p>
-				Task 2: We will ask you to <b>explicitly determine the ambiguity</b> of the scatterplot, which can be interpreted as the difficulty of the lassoing task. Please select your response from -- clear, unsure, or ambiguous.
+				Task 2: We will ask you to <b>explicitly determine the ambiguity</b> of the scatterplot, which can be interpreted as the difficulty of the lassoing task. Please select your response from -- very clear, clear, neutral, ambiguous, or very ambiguous.
 			</p>	
 			<p>
 				The experiment will last about 60 minutes (one hour). You will see 64 scatterplots, where the first four scatterplots will be included in the practice session. There will be a short interview after the experiment.
