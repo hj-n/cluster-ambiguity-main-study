@@ -8,7 +8,8 @@ import Demographic from "./components/Demographic";
 
 function Wrapper() {
 
-	const datasetList = require("./ambreducer_list.json")
+	let datasetList = require("./ambreducer_list.json")
+	datasetList = datasetList.map((d) => d.replace(".npy", ""))
 	const trainingList = require("./sampled_datasets_training.json")
 	const testList = datasetList.filter((d) => !trainingList.includes(d))
 	// pick 16 scatterplots randomly from the testList

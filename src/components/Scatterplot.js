@@ -176,13 +176,10 @@ const Scatterplot = (props) => {
 		if (props.updateLassoResult != undefined) {
 			props.updateLassoResult(props.dataset, lassos);
 		}
-
-		document.getElementsByClassName("buttonDivSplot")[0].style.display = "none";
-		document.getElementsByClassName("ambiguityDivSplot")[0].style.display = "block";
-		status = "ambiguity";
-		document.getElementsByClassName("ambiguityConfirm")[0].disabled = true;
 		d3.selectAll(".lassoFinishedPath").remove();
-		makeCirclesBalck();
+		props.updatePhase();
+
+
 	}
 
 	function clickAmbiguity(event) {
