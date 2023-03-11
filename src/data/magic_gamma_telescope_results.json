@@ -1,0 +1,1 @@
+{"init_loss": 0.8105923432914209, "final_loss": 0.8018456491631298, "max_hyperparameter": {"min_dist": 0.02021839744032572, "n_neighbors": 166.85872941849172}, "initial_embiguity": 0.5376483520132264, "final_ambiguity": 0.47945775545694813, "init_max_hyperparameter": {"min_dist": 0.058196681983855636, "n_neighbors": 70.24765783384147}}
